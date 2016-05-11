@@ -39,11 +39,11 @@ test.
 ## The long term plan
 
 Yesterday I learnt about the [eff monad](https://github.com/atnos-org/eff-scalaz)
-for each of the operations and to create a framework, which makes composition of
-these objects a charm! Since this is just a design pattern, I can keep all code
-generators framework-agnostic and you're able to use whichever you like. I'll
-split into separate sbt modules at some point. Of course you can always just not
-provide yml files to not generate stuff.
+which could be implemented for each of the operations and to create a framework,
+which makes composition of these objects a charm! Since this is just a design
+pattern, I can keep all code generators framework-agnostic and you're able to use
+whichever you like wherever you like. I'll split into separate sbt modules at some
+point. Of course you can always just not provide yml files to not generate stuff.
 
 ## Yaml parsing
 
