@@ -5,8 +5,6 @@ import com.example.user.TaskUserBounds
 
 class TaskCompositionSpec extends Specification with TestDb with TaskUserBounds with TestHelper {
 
-  sequential
-
   val emptyMap: Map[String, Seq[String]] = Map[String, Seq[String]]()
 
   "A TaskBounds and a TaskUserRepository" should {
