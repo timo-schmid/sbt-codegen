@@ -33,7 +33,7 @@ for {
 ```
 
 The full example for this can be found in the
-[TaskCompositionSpec](tree/master/src/sbt-test/codegen/allinone/src/test/scala/com/example/TaskCompositionSpec.scala).
+[TaskCompositionSpec](src/sbt-test/codegen/allinone/src/test/scala/com/example/TaskCompositionSpec.scala).
 test.
 
 ## The long term plan
