@@ -15,6 +15,79 @@ Currently it can only do few things:
 
 See the project in **src/sbt-test/codegen/allinone** for an example.
 
+## A sample db-schema
+
+An entity is an object to be stored in the database.
+
+[src/main/db/user.yml](src/sbt-test/codegen/allinone/src/main/db/user.yml)
+
+```
+!entity
+name: User
+package: com.example.user
+tableName: users                        # option
+keys:
+  id:
+    type: int                           # default, can be overriden
+fields:
+  username:
+    type: string
+    length: 32
+  firstName:
+    type: string                        # required
+    length: 255                         # length is optional, default is 255
+  lastName:
+    type: string
+    length: 255
+  email:
+    type: string
+    length: 255
+    unique: true
+  password:
+    type: binary                        # for sha-256: char(64) would be feasable too
+    length: 32                          # sha1 length / binary takes less space
+  salt:
+    type: binary
+    length: 4
+  lastLogin:
+    type: datetime
+  created:
+    type: datetime
+  updated:
+    type: datetime
+```
+
+## A sample bounds-schema
+
+A "bound" is used to validate something
+
+[src/main/bounds/user.yml](src/sbt-test/codegen/allinone/src/main/bounds/user.yml)
+
+```
+!bound
+name: UserBounds
+package: com.example.user
+type: User
+validations:
+  username:
+    getter: "_.username"
+    validator: com.example.validation.NonEmptyString
+  firstName:
+    getter: "_.firstName"
+    validator: com.example.validation.NonEmptyString
+  lastName:
+    getter: "_.lastName"
+    validator: com.example.validation.NonEmptyString
+  email:
+    getter: "_.email"
+    validator: com.example.validation.ValidEmail
+  password:
+    getter: "_.password"
+    validator: com.example.validation.ValidPassword
+```
+
+## Composition
+
 The nice thing is you can compose these operations together:
 
 ```
@@ -34,7 +107,7 @@ for {
 
 The full example for this can be found in the
 [TaskCompositionSpec](src/sbt-test/codegen/allinone/src/test/scala/com/example/TaskCompositionSpec.scala)
-test.
+test and some helper classes.
 
 ## The long term plan
 
