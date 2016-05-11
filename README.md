@@ -50,3 +50,10 @@ provide yml files to not generate stuff.
 Currently I'm using snake-yaml which might blow up if I forget to map a potential
 null-value into Option - i should check alternatives.
 
+## Programming this plugin
+
+You can run the code generator in the **src/sbt-test/codegen/allinone** project by running
+`sbt scripted`. That's it - it'll run the code generator (automatically invoked by compile),
+check if the classes were all created and then run **test** in the project, which does some
+simple specs2 tests.
+
