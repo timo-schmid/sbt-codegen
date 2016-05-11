@@ -1,0 +1,19 @@
+@(bounds: timo.codegen.Bounds)
+
+@import timo.codegen.TwirlHelper._
+
+@{bounds.pkg.map("package " + _).getOrElse("")}
+
+import svalidate._
+
+trait @{bounds.name} {
+
+  private val bounds = form[@{bounds.tpe}](
+@{validations(bounds)}
+  )
+
+  def validate(t: @{bounds.tpe}): Map[String,Seq[String]] =
+    bounds(t)
+
+}
+

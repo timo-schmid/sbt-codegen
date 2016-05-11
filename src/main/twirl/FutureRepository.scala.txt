@@ -1,0 +1,39 @@
+@(entity: timo.codegen.Entity)
+
+@import timo.codegen.TwirlHelper._
+
+@{entity.pkg.map("package " + _).getOrElse("")}
+
+import scalaz.concurrent.Task
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+import doobie.imports._
+
+trait @{entity.futureRepoName} {
+
+  val xa: Transactor[Task]
+
+  def findAll()(implicit ctx: ExecutionContext): Future[List[@{entity.name}]] = Future({
+    xa.trans(@{entity.ioName}.findAll).run
+  })(ctx)
+
+  def findOne(@{fields(entity.keys)})(implicit ctx: ExecutionContext): Future[Option[@{entity.name}]] = Future({
+    xa.trans(@{entity.ioName}.findOne(@{vars(entity.keys)})).run
+  })(ctx)
+
+@{futureRepoFinders(entity)}
+
+  def create(entity: @{entity.name})(implicit ctx: ExecutionContext): Future[Int] = Future({
+    xa.trans(@{entity.ioName}.create(entity)).run
+  })(ctx)
+
+  def update(entity: @{entity.name})(implicit ctx: ExecutionContext): Future[Int] = Future({
+    xa.trans(@{entity.ioName}.update(entity)).run
+  })(ctx)
+
+  def delete(@{fields(entity.keys)})(implicit ctx: ExecutionContext): Future[Int] = Future({
+    xa.trans(@{entity.ioName}.delete(@{vars(entity.keys)})).run
+  })(ctx)
+
+}
+

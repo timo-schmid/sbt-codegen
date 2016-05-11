@@ -1,0 +1,32 @@
+@(entity: timo.codegen.Entity)
+
+@import timo.codegen.TwirlHelper._
+
+@{entity.pkg.map("package " + _).getOrElse("")}
+
+import scalaz.concurrent.Task
+import doobie.imports._
+
+trait @{entity.repoName} {
+
+  val xa: Transactor[Task]
+
+  def findAll(): Task[List[@{entity.name}]] =
+    xa.trans(@{entity.ioName}.findAll)
+
+  def findOne(@{fields(entity.keys)}): Task[Option[@{entity.name}]] =
+    xa.trans(@{entity.ioName}.findOne(@{vars(entity.keys)}))
+
+@{repoFinders(entity)}
+
+  def create(entity: @{entity.name}): Task[Int] =
+    xa.trans(@{entity.ioName}.create(entity))
+
+  def update(entity: @{entity.name}): Task[Int] =
+    xa.trans(@{entity.ioName}.update(entity))
+
+  def delete(@{fields(entity.keys)}): Task[Int] =
+    xa.trans(@{entity.ioName}.delete(@{vars(entity.keys)}))
+
+}
+

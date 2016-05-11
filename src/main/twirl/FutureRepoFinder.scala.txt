@@ -1,0 +1,12 @@
+@(entity: timo.codegen.Entity, field: timo.codegen.FieldDef)
+
+@import timo.codegen.TwirlHelper._
+
+  def @{field.finder}(@{fld(field)})(implicit ctx: ExecutionContext): Future[List[@{entity.name}]] = Future({
+    xa.trans(@{entity.ioName}.@{field.finder}(@{varNames(Seq(field))})).run
+  })(ctx)
+
+  def @{field.singleFinder}(@{fld(field)})(implicit ctx: ExecutionContext): Future[Option[@{entity.name}]] = Future({
+    xa.trans(@{entity.ioName}.@{field.singleFinder}(@{varNames(Seq(field))})).run
+  })(ctx)
+

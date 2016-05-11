@@ -1,0 +1,35 @@
+# The play-doobie mapping file describes the database structure
+!entity
+name: User
+package: com.example.user
+tableName: users                        # option
+keys:
+  id:
+    type: int                           # default, can be overriden
+# TODO think about primary key generators
+fields:
+  username:
+    type: string
+    length: 32
+  firstName:
+    type: string                        # required
+    length: 255                         # length is optional, default is 255
+  lastName:
+    type: string
+    length: 255
+  email:
+    type: string
+    length: 255
+    unique: true
+  password:
+    type: binary                        # for sha-256: char(64) would be feasable too
+    length: 32                          # sha1 length / binary takes less space
+  salt:
+    type: binary
+    length: 4
+  lastLogin:
+    type: datetime
+  created:
+    type: datetime
+  updated:
+    type: datetime

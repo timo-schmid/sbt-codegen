@@ -1,0 +1,65 @@
+@(entity: timo.codegen.Entity)
+
+@import timo.codegen.TwirlHelper._
+
+@{entity.pkg.map("package " + _).getOrElse("")}
+
+import doobie.imports._
+
+object @{entity.ioName} {
+
+  def findAll: ConnectionIO[List[@{entity.name}]] =
+    sql"""
+         SELECT
+           @{varNames(entity.keys ++ entity.fields)}
+         FROM
+           @{entity.tableName}
+    """
+      .query[@{entity.nameWithPackage}]
+      .list
+
+  def findOne: (@{types(entity.keys)}) => ConnectionIO[Option[@{entity.name}]] = (@{varNames(entity.keys)}) =>
+   sql"""
+         SELECT
+           @{varNames(entity.keys ++ entity.fields)}
+         FROM
+           @{entity.tableName}
+         WHERE
+           @{sqlQueryFields(entity.keys, delim = " AND ")}
+    """
+      .query[@{entity.nameWithPackage}]
+      .option
+
+@{ioFinders(entity)}
+
+  def create: (@{entity.name}) => ConnectionIO[Int] = (entity) =>
+    sql"""
+         INSERT INTO
+           @{entity.tableName}
+         SET
+           @{sqlQueryFields(entity.keys ++ entity.fields, "entity.", ", ")}
+    """
+      .update.run
+
+  def update: (@{entity.name}) => ConnectionIO[Int] = (entity) =>
+    sql"""
+         UPDATE
+           @{entity.tableName}
+         SET
+           @{sqlQueryFields(entity.keys ++ entity.fields, "entity.", ", ")}
+         WHERE
+           @{sqlQueryFields(entity.keys, "entity.", " AND ")}
+    """
+      .update.run
+
+  def delete: (@{types(entity.keys)}) => ConnectionIO[Int] = (@{varNames(entity.keys)}) =>
+    sql"""
+         DELETE FROM
+           @{entity.tableName}
+         WHERE
+           @{sqlQueryFields(entity.keys, delim = " AND ")}
+    """
+      .update.run
+
+}
+

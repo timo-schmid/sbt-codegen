@@ -1,0 +1,21 @@
+@(bounds: timo.codegen.Bounds)
+
+@import timo.codegen.TwirlHelper._
+
+@{bounds.pkg.map("package " + _).getOrElse("")}
+
+import svalidate._
+import scalaz.concurrent.Task
+
+trait @{bounds.taskBoundsName} {
+
+  private val bounds = form[@{bounds.tpe}](
+@{validations(bounds)}
+  )
+
+  def validate(t: @{bounds.tpe}): Task[Map[String,Seq[String]]] = Task {
+    bounds(t)
+  }
+
+}
+

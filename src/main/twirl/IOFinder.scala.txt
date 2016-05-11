@@ -1,0 +1,28 @@
+@(entity: timo.codegen.Entity, field: timo.codegen.FieldDef)
+
+@import timo.codegen.TwirlHelper._
+
+  def @{field.finder}: (@{toScalaType(field.tpe)}) => ConnectionIO[List[@{entity.name}]] = (@{varNames(Seq(field))}) =>
+    sql"""
+          SELECT
+            @{varNames(entity.keys ++ entity.fields)}
+          FROM
+            @{entity.tableName}
+          WHERE
+            @{sqlQueryFields(Seq(field))}
+    """
+      .query[@{entity.nameWithPackage}]
+      .list
+
+  def @{field.singleFinder}: (@{toScalaType(field.tpe)}) => ConnectionIO[Option[@{entity.name}]] = (@{varNames(Seq(field))}) =>
+    sql"""
+          SELECT
+            @{varNames(entity.keys ++ entity.fields)}
+          FROM
+            @{entity.tableName}
+          WHERE
+            @{sqlQueryFields(Seq(field))}
+    """
+      .query[@{entity.nameWithPackage}]
+      .option
+

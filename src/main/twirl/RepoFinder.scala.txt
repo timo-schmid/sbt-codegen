@@ -1,0 +1,10 @@
+@(entity: timo.codegen.Entity, field: timo.codegen.FieldDef)
+
+@import timo.codegen.TwirlHelper._
+
+  val @{field.finder}: (@{toScalaType(field.tpe)}) => Task[List[@{entity.name}]] = (@{varNames(Seq(field))}) =>
+    xa.trans(@{entity.ioName}.@{field.finder}(@{varNames(Seq(field))}))
+
+  val @{field.singleFinder}: (@{toScalaType(field.tpe)}) => Task[Option[@{entity.name}]] = (@{varNames(Seq(field))}) =>
+    xa.trans(@{entity.ioName}.@{field.singleFinder}(@{varNames(Seq(field))}))
+

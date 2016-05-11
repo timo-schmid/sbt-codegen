@@ -1,0 +1,22 @@
+@(bounds: timo.codegen.Bounds)
+
+@import timo.codegen.TwirlHelper._
+
+@{bounds.pkg.map("package " + _).getOrElse("")}
+
+import svalidate._
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+
+trait @{bounds.futureBoundsName} {
+
+  private val bounds = form[@{bounds.tpe}](
+@{validations(bounds)}
+  )
+
+  def validate(t: @{bounds.tpe})(implicit ctx: ExecutionContext): Future[Map[String,Seq[String]]] = Future {
+    bounds(t)
+  }(ctx)
+
+}
+

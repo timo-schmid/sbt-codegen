@@ -1,0 +1,21 @@
+# a "bound" is used to validate something
+!bound
+name: UserBounds
+package: com.example.user
+type: User
+validations:
+  username:
+    getter: "_.username"
+    validator: com.example.validation.NonEmptyString
+  firstName:
+    getter: "_.firstName"
+    validator: com.example.validation.NonEmptyString
+  lastName:
+    getter: "_.lastName"
+    validator: com.example.validation.NonEmptyString
+  email:
+    getter: "_.email"
+    validator: com.example.validation.ValidEmail
+  password:
+    getter: "_.password"
+    validator: com.example.validation.ValidPassword
