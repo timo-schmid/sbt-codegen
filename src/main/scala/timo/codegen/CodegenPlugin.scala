@@ -23,8 +23,7 @@ object CodegenPlugin extends AutoPlugin {
     inConfig(Compile)(codegenSettings) ++
     inConfig(Test)(codegenSettings) ++
     dependencySettings
-      /*
-    defaultSettings ++
+    /* defaultSettings ++
     positionSettings ++ */
 
   def codegenSettings: Seq[Setting[_]] = Seq(
@@ -57,8 +56,6 @@ object CodegenPlugin extends AutoPlugin {
     sourceGenerators <+= genBoundsCode,
     managedSourceDirectories <+= target in genBoundsCode
   )
-
-  // compile it
 
   def dependencySettings: Seq[Setting[_]] = Seq(
     libraryDependencies ++= Seq(
@@ -125,7 +122,7 @@ object CodegenPlugin extends AutoPlugin {
   private def createBoundsSources(srcFiles: Seq[File], dstDir: File, log: Logger): Seq[File] = {
     srcFiles flatMap { srcFile =>
       val bounds = YamlParser.parseYamlBounds(srcFile.getAbsolutePath)
-      Seq( // tu es
+      Seq(
         write(dstDir, Generator.toBoundsFile(bounds), log),
         write(dstDir, Generator.toFutureBoundsFile(bounds), log),
         write(dstDir, Generator.toTaskBoundsFile(bounds), log)
@@ -137,8 +134,10 @@ object CodegenPlugin extends AutoPlugin {
     val f = targetDir / fileData._1
     IO.write(f, fileData._2)
     log.info(s"Created: ${f.getAbsolutePath}")
-    log.info(fileData._2)
+    // uncomment to show the generated code
+    log.debug(fileData._2)
     f
   }
 
 }
+

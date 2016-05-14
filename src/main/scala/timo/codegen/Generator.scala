@@ -36,7 +36,7 @@ case class Entity(
   keys: Seq[EntityKey],
   fields: Seq[EntityField]
 ) extends PkgScoped {
-  def ioName: String          = s"${name}IO"               // TODO make configurable
+  def ioName: String          = s"${name}IO"               // TODO tmake configurable
   def repoName: String        = s"${name}Repository"       // dito
   def futureRepoName: String  = s"${name}FutureRepository" // dito
   def nameWithPackage: String = pkg.map(_ + "." + name).getOrElse(name)

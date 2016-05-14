@@ -1,15 +1,19 @@
-# should automatically generate the code
+# should automatically generate the database code
 > generateDbCode
 $ exists target/scala-2.11/gen-db/main/com/example/user/User.scala
 $ exists target/scala-2.11/gen-db/main/com/example/user/UserIO.scala
 $ exists target/scala-2.11/gen-db/main/com/example/user/UserRepository.scala
 $ exists target/scala-2.11/gen-db/main/com/example/user/UserFutureRepository.scala
+# should automatically generate the bounds code
 > generateBoundsCode
 $ exists target/scala-2.11/gen-bounds/main/com/example/user/UserBounds.scala
+# should compile
 > compile
 $ exists target/scala-2.11/classes/com/example/user/User.class
 $ exists target/scala-2.11/classes/com/example/user/UserIO.class
 $ exists target/scala-2.11/classes/com/example/user/UserRepository.class
 $ exists target/scala-2.11/classes/com/example/user/UserFutureRepository.class
 $ exists target/scala-2.11/classes/com/example/user/UserBounds.class
+# all tests must run
 > test
+# win!
