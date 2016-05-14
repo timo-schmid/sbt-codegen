@@ -1,5 +1,8 @@
-project
-target
+/project
+/target
+/src/sbt-test/codegen/allinone/project/project
+/src/sbt-test/codegen/allinone/project/target
+/src/sbt-test/codegen/allinone/target
 .idea
 .ensime
 .ensime_cache

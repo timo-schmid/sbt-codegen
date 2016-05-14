@@ -6,5 +6,5 @@
   else addSbtPlugin("timo.codegen" % "sbt-codegen" % pluginVersion)
 }
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.4.3")
+// addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.4.3")
 
